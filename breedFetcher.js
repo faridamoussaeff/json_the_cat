@@ -1,17 +1,18 @@
 const request = require('request');
-const searchArray = process.argv.slice(2);
 
-request(`https://api.thecatapi.com/v1/images/search?q=${searchArray[0]}`, (error, response, body) => {
-  if (error) {
-    console.log('error:', error);
-    return;
-  }
-  const data = JSON.parse(body);
-  if (data.length === 0) {
-    console.log("Page does not exist");
-    return;
-  }
+const fetchBreedDescription = function(breedName, callback) {
 
-  console.log(response);
-  console.log(data[0].description);
-});
+  request(`https://api.thecatapi.com/v1/images/search?q=${breedName}`, function(error, response, body) {
+    if (error) {
+      callback(`failed to request details ${error}`, null);
+    }
+    const data = JSON.parse(body);
+    if (!data[0]) {
+      callback(`${breedName} does not exist. Try again!`, null);
+    } else {
+      callback(null, `Here are some details about ${data[0].description}`);
+    }
+  });
+};
+
+module.exports = { fetchBreedDescription };
