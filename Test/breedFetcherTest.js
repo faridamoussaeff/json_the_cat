@@ -1,7 +1,7 @@
 const { fetchBreedDescription } = require('../breedFetcher');
 const { assert } = require('chai');
 
-describe('fetchBreedDescription', () => {
+describe('fetchBreedDescription',() => {
   it('returns a string description for a valid breed, via callback', (done) => {
     fetchBreedDescription('Siberian', (err, desc) => {
       assert.equal(err, null);
